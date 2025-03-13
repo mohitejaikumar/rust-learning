@@ -26,6 +26,7 @@ impl Rect {
 // --------------------------ENUM----------------------------//
 
 enum Direction {
+    
     North,
     South,
     East,

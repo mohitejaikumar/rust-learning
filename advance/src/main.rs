@@ -26,6 +26,19 @@ use std::collections::HashMap;
 //     println!("{:?}", hashmap);
 // }
 
+// struct Job<T, U>{
+//     id: T,
+//     name: U
+// }
+
+// impl<T, U> Job<T, U>{
+//     fn new(id: T, name: U) -> Self{
+//         Self{id, name}
+//     }
+// }
+// static A: Job<i32, &'static str> = Job { id: 1, name: "jaikumar" };
+// println!("{:?}", a);
+
 fn get_even_numbers(numbers: &Vec<i32>) -> Vec<i32> {
     let mut even_numbers = Vec::<i32>::new();
 
@@ -127,19 +140,19 @@ fn iterators_info() {
 
     // println!("{:?}", sum);
 
-    // v1_iter is consumed
+    // // v1_iter is consumed
     // println!("{}", v1_iter);
 
     let v2_iter = v1.iter();
 
     // Iterator adaptor
-    let v4_iter = v2_iter.filter(|x| *x % 2 == 0);
-    let v3_iter = v4_iter.map(|x| x + 1);
+    let v4_iter = v2_iter.filter(|x| **x % 2 == 0);
+    let v3_iter = v4_iter.map(|x| *x + 1);
 }
 
 fn iterator_assignment() {
     let temp_vec = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
-    let new_iter = temp_vec.iter().filter(|x| **x % 2 == 0).map(|x| x * 2);
+    let new_iter = temp_vec.iter().filter(|x| **x % 2 == 0).map(|x| *x * 2);
 
     // create new vector from iterator
     // explicitly give the type
@@ -257,9 +270,7 @@ trait Fix {
         println!("{}", String::from("ibvubwibev"))
     }
 }
-impl Fix for User {
-
-}
+impl Fix for User {}
 fn notify2<T: Summary + Fix>(item: T) {
     println!("{}", item.summarise());
     println!("{:?}", item.summarize1());
