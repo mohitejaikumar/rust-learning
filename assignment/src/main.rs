@@ -87,9 +87,9 @@
 //     print!("User 1 username: {}", user1.active);
 // }
 use std::fmt;
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct User {
-    name: String,
+    phone_number: u32,
     age: u32,
 }
 
@@ -101,9 +101,10 @@ struct User {
 
 fn main() {
     let user = User {
-        name: String::from("Jaikumar"),
+        phone_number: 987654,
         age: 20,
     };
+    let new_user = user.clone();
 
     println!("{:?}", user);
 }
