@@ -54,44 +54,104 @@
 //     };
 // }
 
-// macro_rules! create_function {
-//     ($func_name:ident) => {
-//         fn $func_name() {
-//             println!("Hello, world {}", stringify!($func_name));
-//         }
-//     };
-// }
+macro_rules! create_function {
+    ($func:ident) => {
+        fn $func() {
+            println!("Hello, world {}", stringify!($func));
+        }
+    };
+}
 
-// create_function!(hello);
+create_function!(hello);
+
+
+use serde::{Serialize, Deserialize};
+use serde_json::{self, Value};
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all="PascalCase")]
+struct Person {
+    name: String,
+    age:u32
+}
+
+fn find_element<T: PartialEq>(vec: &Vec<T>, num: T ) -> Option<&T> {
+    
+    for ele in vec {
+        if *ele == num {
+            return Some(ele);
+        }
+    }
+    return None;
+}
+
+fn find_element_in_two_vector<'a, T: std::cmp::PartialEq>(vec1: &'a Vec<T>, vec2: &'a Vec<T>, num: T) -> Option<&'a T> {
+    
+    for ele in vec1 {
+        if *ele == num {
+            return Some(ele);
+        }
+    }
+
+    for ele in vec2 {
+        if *ele == num {
+            return Some(ele);
+        }
+    }
+
+    return None;
+}
+
+fn main(){
+    let person = Person {
+        name: String::from("jaikumar mohite"),
+        age: 22
+    };
+
+    let json_str = serde_json::to_string(&person).unwrap();
+    println!("Serialized Json:: {}", json_str);
+
+    let deserialized_person: Person = serde_json::from_str(&json_str).unwrap();
+    println!("Deserialized Person: {:?}", deserialized_person);
+    
+    let vec = vec![1, 2, 3, 4];
+    let vec1 = vec![3,4,5];
+    let num = find_element(&vec, 1);
+    println!("{:?}", num);
+
+    let num1 = find_element_in_two_vector(&vec, &vec1, 3);
+
+    println!("{:?}", num1);
+}
 
 // fn main() {
-//     // let mut user1 = User {
-//     //     active: true,
-//     //     sign_in_count: 1,
-//     // };
+    // let mut user1 = User {
+    //     active: true,
+    //     sign_in_count: 1,
+    // };
 
-//     // print_name(user1);
-//     // print!("User 1 username: {}", user1.active); // Error - can not use borrowed value
+    // print_name(user1);
+    // print!("User 1 username: {}", user1.active); // Error - can not use borrowed value
 
-//     // let current_local_time = Local::now();
-//     // println!("Current time: {}", current_local_time);
+    // let current_local_time = Local::now();
+    // println!("Current time: {}", current_local_time);
 
-//     // let current_time = Utc::now();
-//     // println!("Current time: {}", current_time);
+    // let current_time = Utc::now();
+    // println!("Current time: {}", current_time);
 
-//     say_hello!("jaikumar");
-//     hello();
+    // say_hello!("jaikumar");
+    // hello();
 // }
 
 // fn print_name(user1: User) {
 //     print!("User 1 username: {}", user1.active);
 // }
-use std::fmt;
-#[derive(Debug, Clone)]
-struct User {
-    phone_number: u32,
-    age: u32,
-}
+// use std::fmt;
+// #[derive(Debug, Clone)]
+// struct User {
+//     phone_number: u32,
+//     age: u32,
+// }
 
 // impl fmt::Display for User {
 //     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -99,12 +159,14 @@ struct User {
 //     }
 // }
 
-fn main() {
-    let user = User {
-        phone_number: 987654,
-        age: 20,
-    };
-    let new_user = user.clone();
+// fn main() {
+//     let user = User {
+//         phone_number: 987654,
+//         age: 20,
+//     };
+//     let new_user = user.clone();
 
-    println!("{:?}", user);
-}
+//     println!("{:?}", user);
+// }
+
+

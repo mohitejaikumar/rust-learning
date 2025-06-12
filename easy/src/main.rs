@@ -109,11 +109,56 @@ fn get_current_time(){
 }
 
 
+struct Rect1<T>{
+    width: T,
+    height: T
+}
 
+impl<T: std::ops::Mul<Output=T> + Copy> Rect1<T>{
+    fn area(&self)-> T{
+        self.width*self.height
+    }
+}
+
+
+pub fn calculate_length(temp: &String)-> usize
+{   
+    return temp.len();
+}
+
+pub fn append_text(s: &mut String){
+    s.insert(0, '3');
+}
+ 
+
+
+struct User1{
+    active: bool,
+    name: String
+}
+
+fn printstruct(str: User1){
+    println!("This is user data: active {}, name {}", str.active, str.name);
+}
 
 
 // println!("{}", fibonacci(6)); // macro ,  dynamic variable -> ({})
 fn main() {
+    
+    let mut str = String::from("Harkirat");
+    // lifetime of this mut is from line 120->121
+    let ref1 = &mut str;
+    ref1.push_str("Singh");
+    let ref2 = &str;
+    
+    println!("{}", ref2);
+    let mut user = User1{
+        active: true,
+        name: String::from("jaikumar")
+    };
+
+   
+
     // one of the existing syntax to define string 
     // let my_string = String::from("Hello, world!");
     // let len = get_str_len(my_string);
@@ -155,6 +200,7 @@ fn main() {
     
 
 }
+
 
 // fn get_str_len(str: String) -> usize {
 //     str.chars().count()  // implicit return statement

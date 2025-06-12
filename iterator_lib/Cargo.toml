@@ -1,0 +1,10 @@
+[package]
+edition = "2024"
+name = "iterator_lib"
+version = "0.1.0"
+
+[lib]
+name = "iterator_lib"
+path = "src/lib.rs"
+
+[dependencies]
