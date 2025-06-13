@@ -65,6 +65,7 @@ macro_rules! create_function {
 create_function!(hello);
 
 
+use borsh::{BorshDeserialize, BorshSerialize};
 use serde::{Serialize, Deserialize};
 use serde_json::{self, Value};
 
@@ -103,25 +104,27 @@ fn find_element_in_two_vector<'a, T: std::cmp::PartialEq>(vec1: &'a Vec<T>, vec2
 }
 
 fn main(){
-    let person = Person {
-        name: String::from("jaikumar mohite"),
-        age: 22
-    };
+    // let person = Person {
+    //     name: String::from("jaikumar mohite"),
+    //     age: 22
+    // };
 
-    let json_str = serde_json::to_string(&person).unwrap();
-    println!("Serialized Json:: {}", json_str);
+    // let json_str = serde_json::to_string(&person).unwrap();
+    // println!("Serialized Json:: {}", json_str);
 
-    let deserialized_person: Person = serde_json::from_str(&json_str).unwrap();
-    println!("Deserialized Person: {:?}", deserialized_person);
+    // let deserialized_person: Person = serde_json::from_str(&json_str).unwrap();
+    // println!("Deserialized Person: {:?}", deserialized_person);
     
-    let vec = vec![1, 2, 3, 4];
-    let vec1 = vec![3,4,5];
-    let num = find_element(&vec, 1);
-    println!("{:?}", num);
+    // let vec = vec![1, 2, 3, 4];
+    // let vec1 = vec![3,4,5];
+    // let num = find_element(&vec, 1);
+    // println!("{:?}", num);
 
-    let num1 = find_element_in_two_vector(&vec, &vec1, 3);
+    // let num1 = find_element_in_two_vector(&vec, &vec1, 3);
 
-    println!("{:?}", num1);
+    // println!("{:?}", num1);
+
+    play_with_borsh();
 }
 
 // fn main() {
@@ -169,4 +172,50 @@ fn main(){
 //     println!("{:?}", user);
 // }
 
+#[derive(BorshSerialize, BorshDeserialize, Debug)]
+struct User1{
+    name: String,
+    password: String
+}
 
+
+fn play_with_borsh(){
+    let mut v: Vec<u8> = Vec::new();
+    let user = User1{
+        name: String::from("jaikumar"),
+        password:String::from("123")
+    };
+    
+    // serialized
+    user.serialize(&mut v).unwrap();
+    
+    // deserialized
+    let deserialised = User1::try_from_slice(&v).unwrap();
+
+    print!("Serialized {:?}", v);
+    
+    print!("Deserialized {:?}", deserialised);
+
+}
+
+
+fn longest_string<'a, 'b>(str1: &'a String, str2: &'a String, str3: &'b String) -> &'a String {
+    if(str1>str2){
+        let temp = str3;
+        print!("{}", temp);
+        return str1;
+    }
+    str2
+}
+
+fn play_with_lifetime(){
+    let str1 = String::from("jaikumar");
+    let str2 = String::from("mohite"); 
+    let ans: &String;
+    {
+        let str3 = String::from("paji");
+        ans = longest_string(&str1, &str2, &str3);
+    }
+
+    print!("{}", ans);
+}
